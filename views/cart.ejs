@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<%- include('partials/header') %>
+
+<div class="container mt-5">
+    <h1 class="text-center">Koszyk</h1>
+    <% if (cartItems.length > 0) { %>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Produkt</th>
+            <th>Rozmiar</th>
+            <th>Cena</th>
+            <th>Akcje</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% cartItems.forEach(item => { %>
+        <tr>
+            <td><%= item.name %></td>
+            <td><%= item.size %></td>
+            <td><%= item.price %> PLN</td>
+            <td>
+                <form action="/shop/remove-from-cart" method="POST">
+                    <input type="hidden" name="cartId" value="<%= item.id %>">
+                    <button type="submit" class="btn btn-danger btn-sm">Usuń</button>
+                </form>
+            </td>
+        </tr>
+        <% }); %>
+        </tbody>
+    </table>
+    <a href="/shop/checkout" class="btn btn-success">Przejdź do zamówienia</a>
+    <% } else { %>
+    <p class="text-center">Koszyk jest pusty.</p>
+    <% } %>
+</div>
+
+<%- include('partials/footer') %>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<%- include('partials/header') %>
+
+<div class="container mt-5">
+    <h1 class="text-center">Sklep</h1>
+    <a href="/shop/cart" class="btn btn-primary mb-4">Przejdź do koszyka</a>
+    <div class="row">
+        <% products.forEach(product => { %>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="/images/<%= product.image || 'placeholder.jpg' %>" class="card-img-top" alt="<%= product.name %>">
+                <div class="card-body">
+                    <h5 class="card-title"><%= product.name %></h5>
+                    <p class="card-text"><%= product.description %></p>
+                    <p class="card-text"><strong>Cena: </strong><%= product.price %> PLN</p>
+                    <form action="/shop/add-to-cart" method="POST">
+                        <input type="hidden" name="productId" value="<%= product.id %>">
+                        <div class="mb-3">
+                            <label for="size-<%= product.id %>" class="form-label">Rozmiar</label>
+                            <select name="size" id="size-<%= product.id %>" class="form-select" required>
+                                <% Object.entries(product.sizes).forEach(([size, available]) => { %>
+                                <option value="<%= size %>" <%= available ? '' : 'disabled' %>>
+                                <%= size %> <%= available ? '' : '(niedostępny)' %>
+                                </option>
+                                <% }); %>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success">Dodaj do koszyka</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <% }); %>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
+</body>
+</html>

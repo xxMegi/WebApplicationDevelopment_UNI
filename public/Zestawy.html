@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FASHION & BEAUTY</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+<header class="container-fluid">
+    <nav class="menu w-100">
+        <h1 style="text-align: center">FASHION & BEAUTY</h1>
+            <ul class="d-flex justify-content-center gap-3">
+            <li><a href="index.html#glowna">HOME</a></li>
+            <li><a href="oMnie.html#oMnie">O MNIE</a></li>
+            <li>ZESTAWY</li>
+            <li><a href="Trendy.html">TRENDY</a></li>
+        </ul>
+    </nav>
+</header>
+
+<footer class="container-fluid text-center">
+    <div class="container text-center my-5">
+        <h3>Wybierz KOLOR który cię interesuje,a ja pokażę ci ZESTAW:</h3>
+        <div class="d-flex justify-content-center flex-wrap gap-3 mt-4">
+            <div class="color-box" style="background-color: #FF5733;" data-image="https://i.pinimg.com/736x/56/d6/1e/56d61e17f0e65c817ff99b70e4944ef3.jpg"></div>
+            <div class="color-box" style="background-color: #33C1FF;" data-image="https://i.pinimg.com/736x/a0/68/b5/a068b5baa83edf3be17a66eaa09d48c3.jpg"></div>
+            <div class="color-box" style="background-color: #28A745;" data-image="https://i.pinimg.com/736x/bd/33/2f/bd332f6b7760b0ed729266671cad781e.jpg"></div>
+            <div class="color-box" style="background-color: #FFC107;" data-image="https://i.pinimg.com/736x/66/dc/c7/66dcc78a943c068b5e70ae0872bce7d9.jpg"></div>
+            <div class="color-box" style="background-color: #6F42C1;" data-image="https://i.pinimg.com/736x/d4/b2/7f/d4b27fd9dfe876e0b83134d97e691ea5.jpg"></div>
+            <div class="color-box" style="background-color: #F85588;" data-image="https://i.pinimg.com/736x/08/3b/d9/083bd9d9fa1c911285e91b0e32b1ed26.jpg"></div>
+        </div>
+
+        <div class="outfit-preview mt-4">
+            <img id="outfitImage" src="https://i.pinimg.com/736x/ef/ea/4a/efea4a35da7c2038ceee2d690d628dba.jpg" alt="Wybierz kolor, aby zobaczyć zestaw" class="img-fluid rounded shadow" style="max-width: 400px;">
+        </div>
+    </div>
+
+    <script>
+        const colorBoxes = document.querySelectorAll('.color-box');
+        const outfitImage = document.getElementById('outfitImage');
+
+        colorBoxes.forEach(box => {
+            box.addEventListener('click', () => {
+                const imageSrc = box.getAttribute('data-image');
+                outfitImage.src = imageSrc; // Ustaw nowe źródło obrazka
+                outfitImage.alt = `Wybrany zestaw w kolorze: ${box.style.backgroundColor}`;
+            });
+        });
+    </script>
+
+
+    <nav class="w-100">
+        <p class="info">© 2023 Fashion & Beauty. Wszelkie prawa zastrzeżone.</p>
+    </nav>
+</footer>
+</body>

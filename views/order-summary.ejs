@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<div class="container-center">
+<h1>Podsumowanie Zamówienia</h1>
+    <h2>Dane Klienta</h2>
+        <p>Imie i nazwisko: <%= orderDetails.firstName %> <%= orderDetails.lastName %></p>
+        <p>Adres: <%= orderDetails.street %>, <%= orderDetails.postalCode %>, <%= orderDetails.city %></p>
+        <p>Email: <%= orderDetails.email %>, Telefon: <%= orderDetails.phone %></p>
+
+<h2>Produkty</h2>
+<ul>
+    <% cartItems.forEach(item => { %>
+    <li><%= item.name %> (Rozmiar: <%= item.size %>) - <%= item.price %> zł</li>
+    <% }); %>
+</ul>
+
+<h3>Dostawa: <%= deliveryPrice %> zł</h3>
+<h3>Łączna kwota: <%= totalPrice %> zł</h3>
+
+<form action="/shop/order-confirmation" method="POST">
+    <button type="submit">Potwierdź Zamówienie</button>
+</form>
+
+</div>
+</body>
+</html>
