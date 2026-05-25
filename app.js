@@ -1,43 +1,47 @@
-//IMPORTOWANIE MODUŁÓW
 const express = require('express');
-const session = require('express-session'); // Import middleware sesji
-const bodyParser = require('body-parser');
+const session = require('express-session');
 const path = require('path');
-const shopRoutes = require('./routes/shop');
-const app = express();
-// Połączenie z bazą danych
-const db = require('./db');
 
-//USTAWIENIE SCIEŻEK I WIDOKÓW
+const shopRoutes = require('./routes/shop');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// View engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Middleware body-parser do obsługi danych z formularzy
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// Middleware dla plików statycznych
+// Middleware for forms, JSON and static files
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//KONFIGURACJA SESJI
+// Session configuration
 app.use(
-    session({
-        secret: 'tajny_klucz', // Klucz używany do szyfrowania sesji
-        resave: false, // Nie zapisuj sesji ponownie, jeśli nie było zmian
-        saveUninitialized: false, // Nie zapisuj pustych sesji
-        cookie: { secure: false } // Ustaw "secure: true" tylko przy HTTPS
-    })
+  session({
+    secret: process.env.SESSION_SECRET || 'dev_secret_change_me',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false,
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24
+    }
+  })
 );
 
-//TRASY
-app.use('/shop', shopRoutes);
-
-// Obsługa błędu 404
-app.use((req, res) => {
-    res.status(404).send('Nie znaleziono strony');
+// Routes
+app.get('/', (req, res) => {
+  res.redirect('/shop');
 });
 
-// Uruchomienie serwera
-const PORT = 3000;
+app.use('/shop', shopRoutes);
+
+// 404
+app.use((req, res) => {
+  res.status(404).send('Nie znaleziono strony');
+});
+
 app.listen(PORT, () => {
-    console.log(`Aplikacja działa na http://localhost:${PORT}`);
+  console.log(`Aplikacja działa na http://localhost:${PORT}`);
 });
