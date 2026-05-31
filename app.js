@@ -1,7 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
-
+const authRoutes = require('./routes/auth');
 const shopRoutes = require('./routes/shop');
 
 const app = express();
@@ -30,11 +30,17 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+    res.locals.session = req.session;
+    next();
+});
+
 // Routes
 app.get('/', (req, res) => {
   res.redirect('/shop');
 });
 
+app.use('/auth', authRoutes);
 app.use('/shop', shopRoutes);
 
 // 404

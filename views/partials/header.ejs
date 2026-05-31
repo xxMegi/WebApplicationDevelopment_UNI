@@ -1,9 +1,51 @@
 <header class="container-fluid bg-light p-3">
     <nav class="d-flex justify-content-between align-items-center">
-        <h1 class="fs-3">FASHION & BEAUTY</h1>
-        <ul class="nav">
-            <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
-            <li class="nav-item"><a href="/shop" class="nav-link">Sklep</a></li>
+
+        <h1 class="fs-3 mb-0">FASHION & BEAUTY</h1>
+
+        <ul class="nav align-items-center">
+
+            <li class="nav-item">
+                <a href="/" class="nav-link">Home</a>
+            </li>
+
+            <li class="nav-item">
+                <a href="/shop" class="nav-link">Sklep</a>
+            </li>
+
+            <% if (session && session.user) { %>
+
+                <li class="nav-item">
+                    <span class="nav-link">
+                        Witaj, <%= session.user.firstName %>
+                    </span>
+                </li>
+
+                <li class="nav-item">
+                    <form action="/auth/logout" method="POST">
+                        <button type="submit" class="btn btn-outline-danger btn-sm">
+                            Wyloguj
+                        </button>
+                    </form>
+                </li>
+
+            <% } else { %>
+
+                <li class="nav-item">
+                    <a href="/auth/login" class="nav-link">
+                        Logowanie
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="/auth/register" class="nav-link">
+                        Rejestracja
+                    </a>
+                </li>
+
+            <% } %>
+
         </ul>
+
     </nav>
 </header>

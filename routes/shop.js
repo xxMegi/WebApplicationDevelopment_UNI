@@ -1,3 +1,4 @@
+const { isAuthenticated } = require('../middleware/authMiddleware');
 const express = require('express');
 const router = express.Router();
 const db = require('../config/database');
@@ -35,7 +36,7 @@ router.get('/', async (req, res) => {
 });
 
 // Cart page
-router.get('/cart', async (req, res) => {
+router.get('/cart', isAuthenticated, async (req, res) => {
   try {
     const [cartItems] = await db.query(`
       SELECT
@@ -56,7 +57,7 @@ router.get('/cart', async (req, res) => {
 });
 
 // Add product to cart
-router.post('/add-to-cart', async (req, res) => {
+router.post('/add-to-cart', isAuthenticated, async (req, res) => {
   const { productId, size } = req.body;
 
   try {
@@ -76,7 +77,7 @@ router.post('/add-to-cart', async (req, res) => {
 });
 
 // Remove product from cart
-router.post('/remove-from-cart', async (req, res) => {
+router.post('/remove-from-cart', isAuthenticated, async (req, res) => {
   const { cartId } = req.body;
 
   try {
@@ -89,12 +90,12 @@ router.post('/remove-from-cart', async (req, res) => {
 });
 
 // Checkout form
-router.get('/checkout', (req, res) => {
+router.get('/checkout', isAuthenticated, (req, res) => {
   res.render('checkout', { title: 'Zamówienie' });
 });
 
 // Save customer details in session
-router.post('/checkout', async (req, res) => {
+router.post('/checkout', isAuthenticated, async (req, res) => {
   const { firstName, lastName, phone, email, street, postalCode, city } = req.body;
 
   req.session.orderDetails = {
@@ -111,7 +112,7 @@ router.post('/checkout', async (req, res) => {
 });
 
 // Payment and delivery page
-router.get('/payment-delivery', (req, res) => {
+router.get('/payment-delivery', isAuthenticated, (req, res) => {
   if (!req.session.orderDetails) {
     return res.redirect('/shop/checkout');
   }
@@ -137,7 +138,7 @@ router.get('/payment-delivery', (req, res) => {
 });
 
 // Save payment and delivery method
-router.post('/payment-delivery', (req, res) => {
+router.post('/payment-delivery', isAuthenticated, (req, res) => {
   const { paymentMethod, deliveryMethod } = req.body;
 
   req.session.paymentMethod = paymentMethod;
@@ -147,7 +148,7 @@ router.post('/payment-delivery', (req, res) => {
 });
 
 // Order summary
-router.get('/order-summary', async (req, res) => {
+router.get('/order-summary', isAuthenticated, async (req, res) => {
   if (!req.session.orderDetails || !req.session.paymentMethod || !req.session.deliveryMethod) {
     return res.redirect('/shop/checkout');
   }
@@ -193,7 +194,7 @@ router.get('/order-summary', async (req, res) => {
 });
 
 // Confirm summary
-router.post('/order-summary', async (req, res) => {
+router.post('/order-summary', isAuthenticated, async (req, res) => {
   if (!req.session.orderDetails) {
     return res.redirect('/shop/checkout');
   }
@@ -202,7 +203,7 @@ router.post('/order-summary', async (req, res) => {
 });
 
 // Create order
-router.post('/order-confirmation', async (req, res) => {
+router.post('/order-confirmation', isAuthenticated, async (req, res) => {
   const connection = await db.getConnection();
 
   try {
