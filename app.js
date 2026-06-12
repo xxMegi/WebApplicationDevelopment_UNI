@@ -3,6 +3,9 @@ const session = require('express-session');
 const path = require('path');
 const authRoutes = require('./routes/auth');
 const shopRoutes = require('./routes/shop');
+const productsApiRoutes = require('./routes/api/productsApi');
+const ordersApiRoutes = require('./routes/api/ordersApi');
+const cartApiRoutes = require('./routes/api/cartApi');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -42,6 +45,9 @@ app.get('/', (req, res) => {
 
 app.use('/auth', authRoutes);
 app.use('/shop', shopRoutes);
+app.use('/api/products', productsApiRoutes);
+app.use('/api/orders', ordersApiRoutes);
+app.use('/api/cart', cartApiRoutes);
 
 // 404
 app.use((req, res) => {
