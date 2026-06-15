@@ -16,6 +16,10 @@
             <% if (session && session.user) { %>
 
                 <li class="nav-item">
+                    <a href="/shop/orders" class="nav-link">Moje zamówienia</a>
+                </li>
+
+                <li class="nav-item">
                     <span class="nav-link">
                         Witaj, <%= session.user.firstName %>
                     </span>

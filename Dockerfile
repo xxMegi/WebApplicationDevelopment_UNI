@@ -8,6 +8,8 @@ RUN npm install
 
 COPY . .
 
+RUN chmod +x docker-entrypoint.sh
+
 EXPOSE 3000
 
-CMD ["sh", "-c", "npm run migrate && npm run seed && npm start"]
+CMD ["sh", "./docker-entrypoint.sh"]

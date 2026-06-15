@@ -310,4 +310,35 @@ router.post('/order-confirmation', isAuthenticated, async (req, res) => {
   }
 });
 
+router.get('/orders', isAuthenticated, async (req, res) => {
+  try {
+    const [orders] = await db.query(
+      `
+      SELECT
+        id,
+        customer_name,
+        customer_email,
+        delivery_method,
+        payment_method,
+        delivery_price,
+        total_price,
+        status,
+        created_at
+      FROM orders
+      WHERE user_id = ?
+      ORDER BY created_at DESC
+      `,
+      [req.session.user.id]
+    );
+
+    res.render('orders', {
+      title: 'Moje zamówienia',
+      orders
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Błąd serwera');
+  }
+});
+
 module.exports = router;

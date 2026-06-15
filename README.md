@@ -6,6 +6,20 @@ Fashion & Beauty Shop is a web application developed as part of the Web Applicat
 
 The application allows users to browse products, create an account, log in, manage a shopping cart, and place orders. The project follows a classic e-commerce architecture based on a relational database and exposes a REST API for selected resources.
 
+## Project Overview
+
+Fashion & Beauty is a web application combining a fashion blog with a simple e-commerce platform.
+
+The application allows users to:
+
+- browse current fashion trends and styling inspirations,
+- explore ready-to-use outfit ideas and clothing recommendations,
+- browse products available in the online store,
+- create an account and log in,
+- add products to a shopping cart,
+- place orders,
+- view their order history.
+
 ---
 
 ## Technologies
@@ -63,6 +77,21 @@ The application allows users to browse products, create an account, log in, mana
 * Order history
 
 ---
+## Architecture
+
+The application follows a modular monolithic architecture.
+
+The system is implemented as a single Express.js application, but its functionality is separated into dedicated modules:
+
+- routes
+- middleware
+- database
+- configuration
+- views
+
+This approach keeps the project simple while maintaining a clear separation of responsibilities.
+
+The repository follows a monorepo structure, where the backend, frontend templates, database migrations, seeds, Docker configuration, and documentation are stored in a single repository.
 
 ## Architecture Overview
 
@@ -234,13 +263,13 @@ project/
 ├── routes/
 │   ├── api/
 │   └── ...
-├── services/
 ├── views/
 │
 ├── app.js
 ├── knexfile.js
 ├── Dockerfile
 ├── docker-compose.yml
+├── docker-entrypoint.sh
 ├── package.json
 └── README.md
 ```
